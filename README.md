@@ -140,29 +140,29 @@ http get http://localhost/api/contacts/1/phones
 Task 1:
 1. Change the button label from contact component from "Delete" to "Delete Contact" 
 Code:
-![alt text](image.png)
+![alt text](./frontend/public/image.png)
 
 User interface:
-![alt text](image-1.png)
+![alt text](./frontend/public/image-1.png)
 
 2. Change the button label in phone component from "Add" to e.g "Add Choiru’s Phone" 
 Code:
-![alt text](image-2.png)
+![alt text](./frontend/public/image-2.png)
 
 Image:
-![alt text](image-3.png)
+![alt text](./frontend/public/image-3.png)
 
 3. Change the placeholder text "Name" with input type text into a drop-down menu with 4 categories (3
 Marks)
 Code: 
-![alt text](image-4.png)
+![alt text](./frontend/public/image-4.png)
 
 Image:
-![alt text](image-5.png)
+![alt text](./frontend/public/image-5.png)
 
 4. In the <tr> element of the table, change the label "Name" to "Phone Type" 
 Code:
-![alt text](image-6.png)
+![alt text](./frontend/public/image-6.png)
 
 Image:
-![alt text](image-7.png)
+![alt text](./frontend/public/image-7.png)
