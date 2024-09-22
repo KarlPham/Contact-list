@@ -2,7 +2,7 @@
 
 IMPORTANT: Once you've cloned this to your forked repository, ensure that you continuously update this document as you complete each task to demonstrate your ongoing progress.
 
-Please include your shared repository link here:
+Please include your shared repository link here: https://github.com/KarlPham/A2-Khoa--22028921.git
 
 Example:
 Choiru's shared repository: https://github.com/choiruzain-latrobe/Assignment2.git
@@ -136,3 +136,33 @@ http get http://localhost/api/contacts/1/phones
 ```
 
 ### Phone API
+
+Task 1:
+1. Change the button label from contact component from "Delete" to "Delete Contact" 
+Code:
+![alt text](image.png)
+
+User interface:
+![alt text](image-1.png)
+
+2. Change the button label in phone component from "Add" to e.g "Add Choiru’s Phone" 
+Code:
+![alt text](image-2.png)
+
+Image:
+![alt text](image-3.png)
+
+3. Change the placeholder text "Name" with input type text into a drop-down menu with 4 categories (3
+Marks)
+Code: 
+![alt text](image-4.png)
+
+Image:
+![alt text](image-5.png)
+
+4. In the <tr> element of the table, change the label "Name" to "Phone Type" 
+Code:
+![alt text](image-6.png)
+
+Image:
+![alt text](image-7.png)
