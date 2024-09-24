@@ -137,32 +137,278 @@ http get http://localhost/api/contacts/1/phones
 
 ### Phone API
 
+
+
+
 Task 1:
 1. Change the button label from contact component from "Delete" to "Delete Contact" 
+
 Code:
-![alt text](./frontend/public/image.png)
+<!-- the button label has been change from "Delete" to "Delete Contact" -->
+
+
+![alt text](./frontend/public/img/t1code1.png)
 
 User interface:
-![alt text](./frontend/public/image-1.png)
+
+Before:
+
+![alt text](./frontend/public/img/t1ui1.png)
+
+After:
+
+![alt text](./frontend/public/img/t1ui2.png)
+
 
 2. Change the button label in phone component from "Add" to e.g "Add Choiru’s Phone" 
+
 Code:
-![alt text](./frontend/public/image-2.png)
+
+<!-- Change the button labe in NewPhone component from "Add phone" to add "Add {contact.name} phone" -->
+
+<!-- The {contact.name} part is a dynamic value (likely from a prop or state), which inserts the current contact’s name into the button's label. -->
+
+![alt text](./frontend/public/img/t1.2code1.png)
 
 Image:
-![alt text](./frontend/public/image-3.png)
+
+Before:
+
+![alt text](./frontend/public/img/t1.2ui1.png)
+
+After:
+
+![alt text](./frontend/public/img/t1.2ui2.png)
 
 3. Change the placeholder text "Name" with input type text into a drop-down menu with 4 categories (3
 Marks)
 Code: 
-![alt text](./frontend/public/image-4.png)
+<!-- The <select> element creates a dropdown menu where users can choose from a list of options. -->
+
+<!-- value={name}: The value attribute binds the selected value of the dropdown to the name state, ensuring the dropdown reflects the current state value. -->
+
+<!-- onChange={(e) => setName(e.target.value)}: This event handler updates the name state with the selected option's value when the user selects a new option. -->
+
+![alt text](./frontend/public/img/t1.3code1.png)
 
 Image:
-![alt text](./frontend/public/image-5.png)
+
+![alt text](./frontend/public/img/t1.3ui1.png)
+
 
 4. In the <tr> element of the table, change the label "Name" to "Phone Type" 
 Code:
-![alt text](./frontend/public/image-6.png)
+![alt text](./frontend/public/img/t1.4code1.png)
 
 Image:
-![alt text](./frontend/public/image-7.png)
+
+Before:
+
+![alt text](./frontend/public/img/t1.4ui1.png)
+
+After:
+
+![alt text](./frontend/public/img/t1.4ui2.png)
+
+
+Task 2
+
+1. Show the API command for “Show Contact” and provide a screenshot of the output (1 Mark)
+
+```bash
+Command:
+http get http://localhost/api/contacts
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 104
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 03:23:32 GMT
+ETag: W/"68-XLFFy+uHAYMjDlFZFEN2GwKr3kk"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+[
+    {
+        "createdAt": "2024-09-24T02:51:02.022Z",
+        "id": 2,
+        "name": "Choiru",
+        "updatedAt": "2024-09-24T02:51:02.022Z"
+    }
+]
+```
+2. Show the API command for “Add Contact” and provide a screenshot of the output (1 Mark)
+
+```bash
+Command:
+http post http://localhost/api/contacts name="Karl"
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 100
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 03:29:50 GMT
+ETag: W/"64-xkvqbvEPA1RCAi2DWHI8ty1uf/k"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "createdAt": "2024-09-24T03:29:50.372Z",
+    "id": 4,
+    "name": "Karl",
+    "updatedAt": "2024-09-24T03:29:50.372Z"
+}
+```
+
+3. Show the API command for “Delete Contact” and provide a screenshot of the output (1 Marks)
+
+```bash
+Command:
+http delete http://localhost/api/contacts/4
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 47
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 03:35:28 GMT
+ETag: W/"2f-i0D5Qo4IGfH+OpTTITmyTnSzFvU"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Contact was deleted successfully!"
+}
+```
+4. Show the API command for “Update Contact” and provide a screenshot of the output (1 Marks)
+
+```bash
+Command:
+http put http://localhost/api/contacts/2 name="Karl"
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 47
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 03:42:25 GMT
+ETag: W/"2f-9DEigpdI8FmatdY6qgJYc7CM5hQ"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Contact was updated successfully."
+}
+```
+
+5. Show the API command for “Show Phone” and provide a screenshot of the output (1 Mark)
+
+```bash
+Commend:
+http get http://localhost/api/contacts/2/phones
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 137
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 03:50:41 GMT
+ETag: W/"89-mZXShvt7yfB5kLXdbgRU/5fhlSs"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+[
+    {
+        "contactId": 2,
+        "createdAt": "2024-09-24T03:49:25.498Z",
+        "id": 2,
+        "name": "home",
+        "number": "123456789",
+        "updatedAt": "2024-09-24T03:49:25.498Z"
+    }
+]
+```
+6. Show the API command for “Add Phone” and provide a screenshot of the output (1 Marks)
+
+```bash
+Command:
+http post http://localhost/api/contacts/2/phones name="work" number="0987654321"
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 136
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 04:03:26 GMT
+ETag: W/"88-XTIBLu0MTdjF5i9JG6nwfQv/SRc"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "contactId": 2,
+    "createdAt": "2024-09-24T04:03:26.972Z",
+    "id": 4,
+    "name": "work",
+    "number": "0987654321",
+    "updatedAt": "2024-09-24T04:03:26.972Z"
+}
+```
+
+7. Show the API command for “Delete Phone” and provide a screenshot of the output (1 Marks)
+
+```bash
+Command:
+http delete http://localhost/api/contacts/2/phones/4
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 45
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 04:07:25 GMT
+ETag: W/"2d-FdOer7L1Hk5YcQlrlpn01BrNJmA"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Phone was deleted successfully!"
+}
+```
+
+8. Show the API command for “Update Phone” and provide a screenshot of the output (1 Marks)
+
+```bash
+Command:
+http put http://localhost/api/contacts/2/phones/2 name="family" number="66668888"
+
+Output:
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 45
+Content-Type: application/json; charset=utf-8
+Date: Tue, 24 Sep 2024 04:16:28 GMT
+ETag: W/"2d-p9Lx2PQGimApZ9nkrVa0opZVZlQ"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Phone was updated successfully."
+}
