@@ -801,3 +801,209 @@ Code:
 
 2. API Creation: Develop four APIs to manage records in the companies table, like Task 2 (12 Marks).
 
+**Step 1**
+- Create a new controller file for ```company``` named ```company.controller.js``` in ./api/controllers/
+
+Image: 
+
+![alt text](./frontend/public/img/t4.2code1.png)
+
+After that import database from (./models) and define ```const Company``` to access the Company model from database object
+
+Image:
+
+![alt text](./frontend/public/img/t4.2code2.png)
+
+**Step 2**
+- Create a new company for specific contact method in ```company.controller.js```
+
+Code:
+
+![alt text](./frontend/public/img/t4.2code3.png)
+
+Explanation:
+ Creating the company object: The ```company``` object is created using ```company_name```, ```company_address```, and ```contact_id``` (which is extracted from the URL parameter).
+
+ Database Insertion: The ```Company.create()``` function is used to insert the new company into the database.
+
+ Response: If the creation is successful, the newly created company data is returned to the client. If an error occurs, a 500 error is returned.
+
+**Step 3**
+
+- Create a retrieves all companies associated with a specific contact method in ```company.controller.js```
+
+Code:
+
+![alt text](./frontend/public/img/t4.2code4.png)
+
+Explanation:
+ Extract ```contactId```: The contactId is extracted from the URL parameters.
+
+ Querying the Database: The Company.findAll() method retrieves all companies from the database that have a ```contact_id``` equal to the ```contactId```.
+
+ Response: The list of companies is sent back as a response. If there's an error during the query, a 500 error message is sent.
+
+**Step 4**
+
+- Create a retrieves a single company based on both the ```companyId``` and ```contactId``` method in ```company.controller.js```
+
+Code:
+
+![alt text](./frontend/public/img/t4.2code5.png)
+
+Explanation:
+ Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL parameters.
+
+ Querying the Database: The ```Company.findOne()``` method finds a company that matches both the ```company_id``` and ```contact_id```. This ensures that the company belongs to the correct contact.
+
+ Response: If a company is found, its data is sent back. If no company is found, a 404 error is returned. Any other error triggers a 500 status with an error message.
+
+**Step 5**
+
+- Create a updates a company's details based on the ```companyId``` and ```contactId``` method in ```company.controller.js```
+
+Code:
+
+![alt text](./frontend/public/img/t4.2code6.png)
+
+Explanation:
+ Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL.
+
+ Update the Company: The ```Company.update()``` method updates the company in the database where both ```company_id``` and ```contact_id``` match.
+
+ Response: If the update is successful, a success message is returned. If no company is found or the request body is empty, an error message is returned. If any other error occurs, a 500 error is sent.
+
+**Step 6**
+
+- Create a deletes a company from the database based on the ```companyId``` and ```contactId``` method in ```company.controller.js```
+
+Code:
+
+![alt text](./frontend/public/img/t4.2code7.png)
+
+Explanation:
+ Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL.
+
+ Delete the Company: The ```Company.destroy()``` method deletes the company from the database where both ```company_id``` and ```contact_id``` match.
+
+ Response: If the deletion is successful, a success message is returned. If no company is found, an error message is returned. Any other error will trigger a 500 status with an error message.
+
+**Step 7**
+- Create a file called ```companies.routes.js``` in ./api/routes to define the API endpoints for interacting with the Company resources.
+
+Code: 
+
+![alt text](./frontend/public/img/t4.2code8.png)
+
+Route Endpoints:
+ - POST ```/api/contacts/:contactId/companies:```:Create a new company for the contact specified by ```contactId```.
+
+ - GET ```/api/contacts/:contactId/companies:```:Get all companies associated with the contact specified by ```contactId```.
+
+ - GET ```/api/contacts/:contactId/companies/:companyId:```:Get a single company identified by ```companyId``` for the contact specified by contactId.
+
+ - PUT ```/api/contacts/:contactId/companies/:companyId:```:Update the company identified by companyId for the contact specified by ```contactId```.
+
+ - DELETE ```/api/contacts/:contactId/companies/:companyId:```:Delete the company identified by companyId for the contact specified by ```contactId```.
+
+ **Step 8**
+
+ - Register the routes in main app file which is ```app.js``` in ```./api/app.js```
+
+ Code:
+
+![alt text](./frontend/public/img/t4.2code9.png)
+
+**Step 9**
+
+- API testing
+
+**POST**
+
+```bash
+http post http://localhost/api/contacts/1/companies company_name="Google" company_address="Mel"
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 157
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 14:55:44 GMT
+ETag: W/"9d-W/NfWjkrSbCv+zdlowlVIstXqSE"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "company_address": "Mel",
+    "company_id": 1,
+    "company_name": "Google",
+    "contact_id": 1,
+    "createdAt": "2024-09-27T14:55:44.324Z",
+    "updatedAt": "2024-09-27T14:55:44.324Z"
+}
+```
+**GET**
+
+```bash
+http get http://localhost/api/contacts/1/companies
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 159
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 14:57:51 GMT
+ETag: W/"9f-MKOEOjuHVSJQscLgUW8GLpkTbXg"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+[
+    {
+        "company_address": "Mel",
+        "company_id": 1,
+        "company_name": "Google",
+        "contact_id": 1,
+        "createdAt": "2024-09-27T14:55:44.324Z",
+        "updatedAt": "2024-09-27T14:55:44.324Z"
+    }
+]
+```
+**PUT**
+
+```bash
+http put http://localhost/api/contacts/1/companies/1 company_name="Facebook" company_address="Bendigo"
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 47
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 15:00:14 GMT
+ETag: W/"2f-tSOkyn1aLnHg00JkjP0hv/QxH7Q"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Company was updated successfully."
+}
+```
+
+**DELETE**
+
+```bash
+http delete http://localhost/api/contacts/1/companies/1
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 47
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 15:01:54 GMT
+ETag: W/"2f-goeWLYgQgcZh1o2QS0V4ovFdEa0"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Company was deleted successfully!"
+}
+```
