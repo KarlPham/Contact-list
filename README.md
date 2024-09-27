@@ -140,7 +140,7 @@ http get http://localhost/api/contacts/1/phones
 
 
 
-Task 1:
+#### Task 1:
 1. Change the button label from contact component from "Delete" to "Delete Contact" 
 
 Code:
@@ -211,7 +211,7 @@ After:
 ![alt text](./frontend/public/img/t1.4ui2.png)
 
 
-Task 2
+##### Task 2
 
 1. Show the API command for “Show Contact” and provide a screenshot of the output (1 Mark)
 
@@ -414,7 +414,7 @@ X-Powered-By: Express
 }
 ```
 
-Task 3
+###### Task 3
 
 1. Modify the contacts Table (5 Marks):
 a. Update the contacts table to include the following attributes:
@@ -451,3 +451,313 @@ Code:
 Database:
 
 ![alt text](./frontend/public/img/t3.1ui1.png)
+
+2. Modify the phones Table (5 Marks):
+a. Update the phones table to include the following attributes:
+i. id
+ii. phone_type
+iii. phone_number
+iv. contactId
+
+Do the same steps as above, but this time I modified phones model in (./api/models/phones.model.js) 
+
+Code:
+
+![alt text](./frontend/public/img/t3.2code1.png)
+
+Database:
+
+![alt text](./frontend/public/img/t3.2ui1.png)
+
+3. Adjust the Front-End (4 Marks):
+a. Modify the front-end to align with the updated backend structure.
+
+Before modify the front-end to align with the updated backed structure, I need to modify Api first to handle the database changed
+
+- Controller API contacts changes (./api/controllers/contact.controllers.js)
+
+Code:
+
+![alt text](./frontend/public/img/t3.3code1.png)
+
+Explanation:
+
+ This code is a controller function in a Node.js and Express application that creates a new contact record in the database (POST request)
+
+ By adding **req.body.address** expected to contain **address** fields submitted by the client to the new database
+
+ Only need to change the POST request because it add new fields which is **address**, the others request don't need to change as long as the ```bash contactId ``` remains the same
+
+- Controller API phones changes (./api/controllers/phone.controllers.js)
+
+Code:
+
+![alt text](./frontend/public/img/t3.3code2.png)
+
+Explanation:
+ This code is a controller function in a Node.js and Express application that creates a new phone record in the database (POST request)
+
+ Modified from **name**, **number** to **phone_type**, **phone_number**.
+
+ Only need to change the POST request because its adjust existed fields which is **name** and **number** to **phone_type**, **phone_number**. The others request don't need to change as long as the ```bash contactId ``` and ```bash phoneId ``` remains the same
+
+- Frontend changes
+
+Contacts:
+
+Start with the ```bash NewContact.js ``` (./frontend/src/components/NewContacts.js)
+
+Code:
+
+![alt text](./frontend/public/img/t3.3code3.png)
+
+Explanation:
+ The form now allows users to input both a name and address for a new contact.
+
+ When the form is submitted, a POST request is sent to the API to create the contact, passing both the **name** and **address** in the request body.
+
+ If the contact is successfully created, the new contact is added to the contacts array, and the form inputs are reset.
+
+Image:
+
+![alt text](./frontend/public/img/t3.3ui1.png)
+
+After that, begin to adjust codes in ``bash Contact.js`` (./frontend/src/components/Contact.js)
+
+Code:
+
+![alt text](./frontend/public/img/t3.3code4.png)
+
+Explanation:
+ Added the <p>{contact.address}</p> element inside the contact's title section to display the contact's address.
+
+ Now both the name and address will be displayed for each contact.
+
+Image:
+
+![alt text](./frontend/public/img/t3.3ui2.png)
+
+No need to change in the ``bash ContactList.js`` because ``bash Contact.js`` component already handles displaying both name and address then ``bash ContactList.js`` display all the ``bash Contact.js``
+
+Image:
+
+![alt text](./frontend/public/img/t3.3ui3.png)
+
+Phones:
+Do exactly same steps in adjust Contact's frontend, the result shows below
+
+``bash NewPhone.js``
+
+Code:
+
+![alt text](./frontend/public/img/t3.3code5.png)
+
+``bash Phone.js``
+
+Code:
+
+![alt text](./frontend/public/img/t3.3ui4.png)
+
+Image:
+
+![alt text](./frontend/public/img/t3.3ui5.png)
+
+Again no need to change in the ``bash PhoneList.js`` because it display alls ``bash Phone.js`` components
+
+**Final result**
+
+![alt text](./frontend/public/img/t3.3ui6.png)
+
+4. Test All APIs related to table modified contacts and phones (8 Marks):
+-Contacts:
+
+**GET METHOD**
+```bash
+http get http://localhost/api/contacts
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 247
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 08:32:50 GMT
+ETag: W/"f7-bG0Isqino/a+MUnEyZaHNV/wWJ8"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+[
+    {
+        "address": "BrayBrook",
+        "createdAt": "2024-09-27T07:48:53.209Z",
+        "id": 2,
+        "name": "Karl",
+        "updatedAt": "2024-09-27T07:48:53.209Z"
+    },
+    {
+        "address": "Bendigo",
+        "createdAt": "2024-09-27T07:56:07.196Z",
+        "id": 3,
+        "name": "Choiru",
+        "updatedAt": "2024-09-27T07:56:07.196Z"
+    }
+]
+```
+
+**POST METHOD**
+```bash
+http post http://localhost/api/contacts name="Cheezu" address="bundoora"
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 123
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 08:37:04 GMT
+ETag: W/"7b-WIqYaabEogkTxtW7co/urRBaA+0"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "address": "bundoora",
+    "createdAt": "2024-09-27T08:37:04.518Z",
+    "id": 4,
+    "name": "Cheezu",
+    "updatedAt": "2024-09-27T08:37:04.518Z"
+}
+```
+
+**DELETE METHOD**
+```bash
+http delete http://localhost/api/contacts/4
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 47
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 08:39:00 GMT
+ETag: W/"2f-i0D5Qo4IGfH+OpTTITmyTnSzFvU"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Contact was deleted successfully!"
+}
+```
+
+**PUT METHOD**
+```bash
+http put http://localhost/api/contacts/2 name="Khoa" address="Melbourne"
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 47
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 08:44:55 GMT
+ETag: W/"2f-9DEigpdI8FmatdY6qgJYc7CM5hQ"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Contact was updated successfully."
+}
+```
+
+- Phones:
+
+**GET METHOD**
+```bash
+http get http://localhost/api/contacts/2/phones
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 299
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 08:47:27 GMT
+ETag: W/"12b-yJSNDcAfv4xbHFZzofKJn3BGh+I"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+[
+    {
+        "contactId": 2,
+        "createdAt": "2024-09-27T08:23:18.972Z",
+        "id": 1,
+        "phone_number": "123456789",
+        "phone_type": "home",
+        "updatedAt": "2024-09-27T08:23:18.972Z"
+    },
+    {
+        "contactId": 2,
+        "createdAt": "2024-09-27T08:27:00.714Z",
+        "id": 2,
+        "phone_number": "987654432",
+        "phone_type": "mobile",
+        "updatedAt": "2024-09-27T08:27:00.714Z"
+    }
+]
+```
+
+**POST METHOD**
+```bash
+http post http://localhost/api/contacts/2/phones phone_type="work" phone_number="88886666"
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 146
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 08:54:05 GMT
+ETag: W/"92-ZEEpWZ72PPXKeblW7fzrEKKWTTs"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "contactId": 2,
+    "createdAt": "2024-09-27T08:54:05.819Z",
+    "id": 4,
+    "phone_number": "88886666",
+    "phone_type": "work",
+    "updatedAt": "2024-09-27T08:54:05.819Z"
+}
+```
+
+**DELETE METHOD**
+```bash
+http delete http://localhost/api/contacts/2/phones/4
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 45
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 08:58:19 GMT
+ETag: W/"2d-FdOer7L1Hk5YcQlrlpn01BrNJmA"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Phone was deleted successfully!"
+}
+```
+
+**PUT METHOD**
+```bash
+ http put http://localhost/api/contacts/2/phones/1 phone_number="123456788"
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: http://localhost:3000
+Connection: keep-alive
+Content-Length: 45
+Content-Type: application/json; charset=utf-8
+Date: Fri, 27 Sep 2024 09:01:15 GMT
+ETag: W/"2d-p9Lx2PQGimApZ9nkrVa0opZVZlQ"
+Server: nginx/1.25.1
+Vary: Origin
+X-Powered-By: Express
+
+{
+    "message": "Phone was updated successfully."
+}
+```
