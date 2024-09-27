@@ -9,7 +9,7 @@ Choiru's shared repository: https://github.com/choiruzain-latrobe/Assignment2.gi
 
 
 Make sure for **your case it is in Private**
-## Access Database
+
 1 **Plsql Cheat Sheet:**
 You can refer to the PostgreSQL cheat sheet [here](https://www.postgresqltutorial.com/postgresql-cheat-sheet/).
 
@@ -61,9 +61,9 @@ postgres=# select * from contacts;
    ```
 Replace `container_ID` with the actual ID of the container you want to execute.
 
-## Executing API
 
-### Contact API
+
+
 
 
 1. Add contacts API  (POST)
@@ -135,12 +135,12 @@ http get http://localhost/api/contacts/1/phones
 
 ```
 
-### Phone API
 
 
 
 
-#### Task 1:
+
+## Task 1:
 1. Change the button label from contact component from "Delete" to "Delete Contact" 
 
 Code:
@@ -211,7 +211,7 @@ After:
 ![alt text](./frontend/public/img/t1.4ui2.png)
 
 
-##### Task 2
+### Task 2
 
 1. Show the API command for “Show Contact” and provide a screenshot of the output (1 Mark)
 
@@ -414,7 +414,7 @@ X-Powered-By: Express
 }
 ```
 
-###### Task 3
+#### Task 3
 
 1. Modify the contacts Table (5 Marks):
 a. Update the contacts table to include the following attributes:
@@ -761,3 +761,43 @@ X-Powered-By: Express
     "message": "Phone was updated successfully."
 }
 ```
+
+##### Task 4
+
+1. Table Creation: Create a new table named `companies` with the following attributes (18 Marks):
+a. company_id: Primary key, uniquely identifies each company
+b. company_name: Name of the company
+c. company_address: Address of the company
+d. contact_id: Foreign key referencing contact_id in the contacts table
+
+**Step 1 :**
+- Define the ```Company``` model in the ```/models directory.
+
+Code(./api/models/company.model.js):
+
+![alt text](./frontend/public/img/t4.1code1.png)
+
+Explanation:
+ 
+ ```company_id```: Primary key that uniquely identifies each company.
+
+ ```company_name```: Name of the company.
+
+ ```company_address```: Address of the company
+
+ ```contact_id```: Foreign key that links to the ```contacts``` table. It establishes the relationship between a company and a contact.
+
+**Step 2:**
+- Import new ```company.model.js``` sequelize file to PostgreSQL database via (./api/models/index.js)
+
+Code:
+
+![alt text](./frontend/public/img/t4.1code2.png)
+
+**Step 3:**
+- Check Database
+
+![alt text](./frontend/public/img/t4.1db1.png)
+
+2. API Creation: Develop four APIs to manage records in the companies table, like Task 2 (12 Marks).
+
