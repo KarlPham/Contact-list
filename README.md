@@ -33,7 +33,7 @@ To find out the container ID, execute the following command:
 Once you have the container ID, you can execute the container using the following command:
 You will see the example of running the PostgreSQL inside the container.
    ```bash
-   docker exec -it testsystem-db-1 psql -U postgres
+   docker exec -it assignment2-main-db-1 psql -U postgres
    choiruzain@MacMarichoy TestSystem % docker exec -it testsystem-db-1 psql -U postgres                                       
    psql (15.3)
    Type "help" for help.
@@ -412,3 +412,42 @@ X-Powered-By: Express
 {
     "message": "Phone was updated successfully."
 }
+```
+
+Task 3
+
+1. Modify the contacts Table (5 Marks):
+a. Update the contacts table to include the following attributes:
+i. id
+ii. Name
+iii. Address
+
+
+There are 2 methods when modify the contact Table in the Db using Sequelize:
+
+- Sequelize's .sync() method synchronizes your models with the database by creating or altering tables to match the current state of your models.
+
+- Migrations are scripts that define how to apply changes to the database schema (like adding columns, changing data types, etc.) in a step-by-step manner. They allow you to evolve your database schema over time in a controlled way.
+
+Comparison:
+bash```
+
+![alt text](./frontend/public/img/t3comParison.png)
+
+In this project, I use Sequelize's .sync() method due to the convenient it bring
+
+To set up this method, I changed **db.sequelize.sync({ force: false })** in (./api/app.js) to **db.sequelize.sync({ after: true })**
+
+Code:
+
+![alt text](./frontend/public/img/t3.1code1.png)
+
+After that, I modified contacts model in (./api/models/contacts.model.js)
+
+Code:
+
+![alt text](./frontend/public/img/t3.1code2'.png)
+
+Database:
+
+![alt text](./frontend/public/img/t3.1ui1.png)
