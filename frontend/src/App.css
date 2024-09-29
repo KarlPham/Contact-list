@@ -40,6 +40,7 @@
     font-size: 12px;
     border-radius: 5px;
     cursor: pointer;
+    margin-right: 5px;
 }
 
 .green {
@@ -55,6 +56,28 @@
     background-color: #da190b;
 }
 
+.blue{
+    background-color: hsl(195, 53%, 79%);
+}
+.blue:hover{
+    background-color: hsl(195, 53%, 69%);
+}
+
+.yellow{
+    background-color: hsl(40, 100%, 50%);
+}
+
+.yellow:hover{
+    background-color: hsl(40, 100%, 40%);;
+}
+
+.grey{
+    background-color: hsl(0, 0%, 50%);
+}
+
+.grey:hover{
+    background-color: hsl(0, 0%, 40%);
+}
 .page {
     height: 100vh;
     max-height: 100vh;
@@ -137,6 +160,16 @@
 }
 
 .new-phone > input {
+    margin-right: 5px;
+    width: 100%;
+}
+.new-company{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.new-company > input {
     margin-right: 5px;
     width: 100%;
 }

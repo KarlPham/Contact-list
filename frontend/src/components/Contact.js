@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';  // import useEffect
 import PhoneList from './PhoneList.js';
+import CompanyList from './CompanyList.js';
 
 function Contact(props) {
     const {contact, contacts, setContacts} = props;
@@ -44,6 +45,8 @@ function Contact(props) {
             <div style={expandStyle}>
                 <hr />
                 <PhoneList phones={phones} setPhones={setPhones} contact={contact} />
+                <hr />
+                <CompanyList contactId={contact.id} />
             </div>
         </div>
 	);
