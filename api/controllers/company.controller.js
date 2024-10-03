@@ -75,6 +75,7 @@ exports.update = (req, res) => {
     })
     .then(num => {
         if (num == 1) {
+            // res.send(data);  // Send back all companies related to the contact
             res.send({
                 message: "Company was updated successfully."
             });

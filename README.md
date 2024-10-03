@@ -1007,3 +1007,342 @@ X-Powered-By: Express
     "message": "Company was deleted successfully!"
 }
 ```
+
+###### Task 5
+
+**Basic Company Structure**
+
+The company management in the project involves three key components: ```CompanyList.js```, ```Company.js```, and ```NewCompany.js```. These components work together to manage the list of companies associated with each contact in Contact application.
+
+Overview:
+
+- ```CompanyList.js```: This is the main component that handles the list of companies for a specific contact. It fetches the companies from the backend, displays them in a table, and includes a form for adding new companies.
+
+- ```Company.js```: This component represents an individual company within the list. It displays the company name and address, and provides buttons to edit or delete the company.
+
+- ```NewCompany.js```: This component contains a form to allow the user to add a new company. It interacts with the backend to create a new company in the database.
+
+**The Structure of Components:**
+
+```CompanyList.js```
+
+- This component acts as the parent for both the ```Company``` and ```NewCompany``` components.
+
+- It fetches the list of companies from the backend and renders each company in a **table row** by using the ```Company``` component.
+
+- It also contains the ```NewCompany``` component, which allows adding a new company.
+
+```Company.js```
+
+- This component is responsible for rendering a single company in the table.
+
+- It provides the functionality to edit and delete a company.
+
+```NewCompany.js```
+
+- This component renders a form that allows the user to input a new company's name and address and submit the form to create a new company in the database.
+
+**Diagram**
+
+```bash
++------------------------+
+|  CompanyList.js         |
+|                        |
+|  +------------------+  |
+|  | NewCompany.js     |  |   <-- Form to add a new company
+|  +------------------+  |
+|                        |
+|  +------------------+  |
+|  | Company.js        |  |   <-- Displays a company, includes edit/delete buttons
+|  +------------------+  |
+|                        |
+|  +------------------+  |
+|  | Company.js        |  |   <-- Displays another company (one per row)
+|  +------------------+  |
++------------------------+
+```
+
+**Company Structure Image**
+
+![alt text](./frontend/public/img/t5ui1.png)
+
+**```Company.js``` Code**
+
+```bash
+import { useState } from 'react';
+
+function Company({ company, companies, setCompanies, contactId }) {
+    // State to handle whether the company is being edited
+    const [isEditing, setIsEditing] = useState(false);
+    
+    // State to manage the edited company details (company_name and company_address)
+    const [editedCompany, setEditedCompany] = useState({
+        company_name: company.company_name,
+        company_address: company.company_address,
+    });
+
+    // Function to handle updating the company
+    async function handleUpdate(e) {
+        e.preventDefault();
+
+        // Send a PUT request to the API to update the company details
+        const response = await fetch(`http://localhost/api/contacts/${contactId}/companies/${company.company_id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(editedCompany), // Send the updated company data in the request body
+        });
+
+        if (response.ok) {
+            // If the update is successful, update the company list in the state
+            const updatedCompanies = companies.map((c) =>
+                c.company_id === company.company_id ? { ...c, ...editedCompany } : c
+            );
+            setCompanies(updatedCompanies);
+            setIsEditing(false); // Exit edit mode
+        }
+    }
+
+    // Function to handle deleting the company
+    async function doDelete(e) {
+        e.stopPropagation(); // Prevent click event from affecting the parent element
+
+        // Send a DELETE request to the API to remove the company
+        const response = await fetch(`http://localhost/api/contacts/${contactId}/companies/${company.company_id}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            // If deletion is successful, remove the company from the list in the state
+            const newCompanies = companies.filter((c) => c.company_id !== company.company_id);
+            setCompanies(newCompanies);
+        }
+    }
+
+    return (
+        <tr>
+            {isEditing ? (
+                // If in editing mode, show input fields for editing company details
+                <>
+                    <td>
+                        <input
+                            type="text"
+                            value={editedCompany.company_name}
+                            onChange={(e) => setEditedCompany({ ...editedCompany, company_name: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            value={editedCompany.company_address}
+                            onChange={(e) => setEditedCompany({ ...editedCompany, company_address: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        <button onClick={handleUpdate}>Save</button>
+                        <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    </td>
+                </>
+            ) : (
+                // If not in editing mode, display the company details
+                <>
+                    <td>{company.company_name}</td>
+                    <td>{company.company_address}</td>
+                    <td>
+                        <button onClick={() => setIsEditing(true)}>Edit</button> {/* Enable editing */}
+                        <button className="button red" onClick={doDelete}>Delete</button> {/* Delete company */}
+                    </td>
+                </>
+            )}
+        </tr>
+    );
+}
+
+export default Company;
+```
+**```NewCompany.js``` Code with comment**
+
+```bash
+import { useState } from 'react';
+
+function NewCompany({ contactId, companies, setCompanies }) {
+    // State to store the new company's name and address
+    const [companyName, setCompanyName] = useState('');
+    const [companyAddress, setCompanyAddress] = useState('');
+
+    // Function to handle the form submission to add a new company
+    async function createCompany(e) {
+        e.preventDefault();
+
+        // Send a POST request to the API to create a new company
+        const response = await fetch(`http://localhost/api/contacts/${contactId}/companies`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                company_name: companyName, // Include the new company name
+                company_address: companyAddress, // Include the new company address
+            }),
+        });
+
+        const newCompany = await response.json(); // Parse the response
+
+        if (response.ok) {
+            // If creation is successful, add the new company to the list in the state
+            setCompanies([...companies, newCompany]);
+            setCompanyName(''); // Reset input fields
+            setCompanyAddress(''); // Reset input fields
+        }
+    }
+
+    return (
+        <form className='new-company' onSubmit={createCompany}>
+            {/* Input field for the new company's name */}
+            <input
+                type='text'
+                placeholder='Company Name'
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+            />
+            {/* Input field for the new company's address */}
+            <input
+                type='text'
+                placeholder='Company Address'
+                value={companyAddress}
+                onChange={(e) => setCompanyAddress(e.target.value)}
+            />
+            <button type='submit'>Add Company</button> {/* Submit the form to create a company */}
+        </form>
+    );
+}
+
+export default NewCompany;
+```
+
+**```CompanyList.js``` Code with comment**
+
+```bash
+import { useState, useEffect } from 'react';
+import Company from './Company.js'; // Import the Company component
+import NewCompany from './NewCompany.js'; // Import the NewCompany component
+
+function CompanyList({ contactId }) {
+    // State to store the list of companies
+    const [companies, setCompanies] = useState([]);
+
+    // Fetch the companies related to the contact when the component mounts
+    useEffect(() => {
+        fetch(`http://localhost/api/contacts/${contactId}/companies`)
+            .then((response) => response.json())
+            .then((data) => setCompanies(data)) // Store the retrieved companies in state
+            .catch((error) => {
+                console.error('Error fetching companies:', error);
+            });
+    }, [contactId]); // Dependency array to re-fetch when contactId changes
+
+    return (
+        <div className='company-list'>
+            {/* Form to add a new company */}
+            <NewCompany contactId={contactId} companies={companies} setCompanies={setCompanies} />
+
+            {/* Table to display the list of companies */}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Company Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* Map through the list of companies and render each one */}
+                    {companies.map((company) => (
+                        <Company
+                            key={company.company_id}
+                            company={company}
+                            companies={companies}
+                            setCompanies={setCompanies}
+                            contactId={contactId} // Pass the contactId to identify the parent contact
+                        />
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
+export default CompanyList;
+```
+
+**Integrating ```CompanyList``` into ```Contact.js```**
+
+Explanation:
+
+- Now that the ```CompanyList``` component is ready, include it in the ```Contact.js``` component.
+
+- Ensure that **companies** related to each contact are displayed below the contact's details, alongside phone numbers.
+
+Code:
+
+```bash
+import { useState, useEffect } from 'react';  
+import PhoneList from './PhoneList.js';
+import CompanyList from './CompanyList.js';  // Import CompanyList component
+
+function Contact(props) {
+    const {contact, contacts, setContacts} = props;
+    const [expanded, setExpanded] = useState(false);
+    const [phones, setPhones] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost/api/contacts/' + contact.id + '/phones')
+            .then(response => response.json())
+            .then(data => setPhones(data))
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [contact.id]);
+
+    const expandStyle = {
+        display: expanded ? 'block' : 'none'
+    };
+
+    async function doDelete(e) {
+        e.stopPropagation();
+        
+        const response = await fetch('http://localhost/api/contacts/' + contact.id, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            const newContacts = contacts.filter((c) => c.id !== contact.id);
+            setContacts(newContacts);
+        }
+    }
+
+    return (
+        <div key={contact.id} className='contact' onClick={() => setExpanded(!expanded)}>
+            <div className='title'>
+                <h3>{contact.name}</h3>
+                <p>{contact.address}</p>
+                <button className='button red' onClick={doDelete}>Delete</button>
+            </div>
+
+            <div style={expandStyle}>
+                <hr />
+                <PhoneList phones={phones} setPhones={setPhones} contact={contact} />
+                <CompanyList contactId={contact.id} /> {/* Add the CompanyList component */}
+            </div>
+        </div>
+    );
+}
+
+export default Contact;
+```
+
+Image:
+
+![alt text](./frontend/public/img/t5ui2.png)
+
