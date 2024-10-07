@@ -153,6 +153,10 @@ User interface:
 
 Before:
 
+<div align="center">
+  <img src="./frontend/public/img/t1ui1.png" alt="Image description" width="300"/>
+</div>
+
 ![alt text](./frontend/public/img/t1ui1.png)
 
 After:
