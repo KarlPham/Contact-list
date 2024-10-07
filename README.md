@@ -140,7 +140,7 @@ http get http://localhost/api/contacts/1/phones
 
 
 <detail>
-<summary>Task 1</summary>
+ <summary>Task 1</summary>
 
 1. Change the button label from contact component from "Delete" to "Delete Contact" 
 
@@ -777,16 +777,20 @@ X-Powered-By: Express
 }
 ```
 <detail>
-<summary>Task 4</summary>
+ <summary>Task 4</summary>
 
 1. Table Creation: Create a new table named `companies` with the following attributes (18 Marks):
+
 a. company_id: Primary key, uniquely identifies each company
+
 b. company_name: Name of the company
+
 c. company_address: Address of the company
+
 d. contact_id: Foreign key referencing contact_id in the contacts table
 
 **Step 1 :**
-- Define the ```Company``` model in the ```/models directory.
+- Define the ```Company``` model in the ./models directory.
 
 Code(./api/models/company.model.js):
 
@@ -794,16 +798,16 @@ Code(./api/models/company.model.js):
 
 Explanation:
  
- ```company_id```: Primary key that uniquely identifies each company.
+- ```company_id```: Primary key that uniquely identifies each company.
 
- ```company_name```: Name of the company.
+- ```company_name```: Name of the company.
 
- ```company_address```: Address of the company
+- ```company_address```: Address of the company
 
- ```contact_id```: Foreign key that links to the ```contacts``` table. It establishes the relationship between a company and a contact.
+- ```contact_id```: Foreign key that links to the ```contacts``` table. It establishes the relationship between a company and a contact.
 
 **Step 2:**
-- Import new ```company.model.js``` sequelize file to PostgreSQL database via (./api/models/index.js)
+- Import new ```company.model.js``` sequelize file to PostgreSQL database in (./api/models/index.js)
 
 Code:
 
@@ -837,11 +841,11 @@ Code:
 ![alt text](./frontend/public/img/t4.2code3.png)
 
 Explanation:
- Creating the company object: The ```company``` object is created using ```company_name```, ```company_address```, and ```contact_id``` (which is extracted from the URL parameter).
+- Creating the company object: The ```company``` object is created using ```company_name```, ```company_address```, and ```contact_id``` (which is extracted from the URL parameter).
 
- Database Insertion: The ```Company.create()``` function is used to insert the new company into the database.
+- Database Insertion: The ```Company.create()``` function is used to insert the new company into the database.
 
- Response: If the creation is successful, the newly created company data is returned to the client. If an error occurs, a 500 error is returned.
+- Response: If the creation is successful, the newly created company data is returned to the client. If an error occurs, a 500 error is returned.
 
 **Step 3**
 
@@ -852,11 +856,11 @@ Code:
 ![alt text](./frontend/public/img/t4.2code4.png)
 
 Explanation:
- Extract ```contactId```: The contactId is extracted from the URL parameters.
+- Extract ```contactId```: The contactId is extracted from the URL parameters.
 
- Querying the Database: The Company.findAll() method retrieves all companies from the database that have a ```contact_id``` equal to the ```contactId```.
+- Querying the Database: The Company.findAll() method retrieves all companies from the database that have a ```contact_id``` equal to the ```contactId```.
 
- Response: The list of companies is sent back as a response. If there's an error during the query, a 500 error message is sent.
+- Response: The list of companies is sent back as a response. If there's an error during the query, a 500 error message is sent.
 
 **Step 4**
 
@@ -867,11 +871,11 @@ Code:
 ![alt text](./frontend/public/img/t4.2code5.png)
 
 Explanation:
- Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL parameters.
+- Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL parameters.
 
- Querying the Database: The ```Company.findOne()``` method finds a company that matches both the ```company_id``` and ```contact_id```. This ensures that the company belongs to the correct contact.
+- Querying the Database: The ```Company.findOne()``` method finds a company that matches both the ```company_id``` and ```contact_id```. This ensures that the company belongs to the correct contact.
 
- Response: If a company is found, its data is sent back. If no company is found, a 404 error is returned. Any other error triggers a 500 status with an error message.
+- Response: If a company is found, its data is sent back. If no company is found, a 404 error is returned. Any other error triggers a 500 status with an error message.
 
 **Step 5**
 
@@ -882,11 +886,11 @@ Code:
 ![alt text](./frontend/public/img/t4.2code6.png)
 
 Explanation:
- Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL.
+- Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL.
 
- Update the Company: The ```Company.update()``` method updates the company in the database where both ```company_id``` and ```contact_id``` match.
+- Update the Company: The ```Company.update()``` method updates the company in the database where both ```company_id``` and ```contact_id``` match.
 
- Response: If the update is successful, a success message is returned. If no company is found or the request body is empty, an error message is returned. If any other error occurs, a 500 error is sent.
+- Response: If the update is successful, a success message is returned. If no company is found or the request body is empty, an error message is returned. If any other error occurs, a 500 error is sent.
 
 **Step 6**
 
@@ -897,11 +901,11 @@ Code:
 ![alt text](./frontend/public/img/t4.2code7.png)
 
 Explanation:
- Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL.
+- Extract Parameters: The ```companyId``` and ```contactId``` are extracted from the URL.
 
- Delete the Company: The ```Company.destroy()``` method deletes the company from the database where both ```company_id``` and ```contact_id``` match.
+- Delete the Company: The ```Company.destroy()``` method deletes the company from the database where both ```company_id``` and ```contact_id``` match.
 
- Response: If the deletion is successful, a success message is returned. If no company is found, an error message is returned. Any other error will trigger a 500 status with an error message.
+- Response: If the deletion is successful, a success message is returned. If no company is found, an error message is returned. Any other error will trigger a 500 status with an error message.
 
 **Step 7**
 - Create a file called ```companies.routes.js``` in ./api/routes to define the API endpoints for interacting with the Company resources.
@@ -933,7 +937,7 @@ Route Endpoints:
 
 - API testing
 
-**POST**
+**POST Method**
 
 ```bash
 http post http://localhost/api/contacts/1/companies company_name="Google" company_address="Mel"
@@ -957,7 +961,7 @@ X-Powered-By: Express
     "updatedAt": "2024-09-27T14:55:44.324Z"
 }
 ```
-**GET**
+**GET Method**
 
 ```bash
 http get http://localhost/api/contacts/1/companies
@@ -983,7 +987,7 @@ X-Powered-By: Express
     }
 ]
 ```
-**PUT**
+**PUT Method**
 
 ```bash
 http put http://localhost/api/contacts/1/companies/1 company_name="Facebook" company_address="Bendigo"
@@ -1003,7 +1007,7 @@ X-Powered-By: Express
 }
 ```
 
-**DELETE**
+**DELETE Method**
 
 ```bash
 http delete http://localhost/api/contacts/1/companies/1
@@ -1022,8 +1026,8 @@ X-Powered-By: Express
     "message": "Company was deleted successfully!"
 }
 ```
-
-###### Task 5
+<detail>
+ <summary>Task 5</summary>
 
 **Basic Company Structure**
 
