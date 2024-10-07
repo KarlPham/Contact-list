@@ -139,7 +139,7 @@ http get http://localhost/api/contacts/1/phones
 
 
 
-<detail>
+<details>
  <summary>Task 1</summary>
 
 1. Change the button label from contact component from "Delete" to "Delete Contact" 
@@ -210,6 +210,8 @@ Before:
 After:
 
 ![alt text](./frontend/public/img/t1.4ui2.png)
+
+</details>
 
 <details>
  <summary>Task 2</summary>
@@ -414,7 +416,9 @@ X-Powered-By: Express
     "message": "Phone was updated successfully."
 }
 ```
-<detail>
+</details>
+
+<details>
 <summary>Task 3</summary>
 
 1. Modify the contacts Table (5 Marks):
@@ -776,7 +780,9 @@ X-Powered-By: Express
     "message": "Phone was updated successfully."
 }
 ```
-<detail>
+</details>
+
+<details>
  <summary>Task 4</summary>
 
 1. Table Creation: Create a new table named `companies` with the following attributes (18 Marks):
@@ -1026,7 +1032,9 @@ X-Powered-By: Express
     "message": "Company was deleted successfully!"
 }
 ```
-<detail>
+</details>
+
+<details>
  <summary>Task 5</summary>
 
 **Basic Company Structure**
@@ -1087,7 +1095,7 @@ Overview:
 
 **```Company.js``` Code**
 
-```bash
+```javascript
 import { useState } from 'react';
 
 function Company({ company, companies, setCompanies, contactId }) {
@@ -1182,7 +1190,7 @@ export default Company;
 ```
 **```NewCompany.js``` Code with comment**
 
-```bash
+```javascript
 import { useState } from 'react';
 
 function NewCompany({ contactId, companies, setCompanies }) {
@@ -1242,7 +1250,7 @@ export default NewCompany;
 
 **```CompanyList.js``` Code with comment**
 
-```bash
+```javascript
 import { useState, useEffect } from 'react';
 import Company from './Company.js'; // Import the Company component
 import NewCompany from './NewCompany.js'; // Import the NewCompany component
@@ -1305,7 +1313,7 @@ Explanation:
 
 Code:
 
-```bash
+```javascript
 import { useState, useEffect } from 'react';  
 import PhoneList from './PhoneList.js';
 import CompanyList from './CompanyList.js';  // Import CompanyList component
@@ -1365,3 +1373,4 @@ Image:
 
 ![alt text](./frontend/public/img/t5ui2.png)
 
+</details>
