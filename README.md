@@ -139,8 +139,9 @@ http get http://localhost/api/contacts/1/phones
 
 
 
+<detail>
+<summary>Task 1</summary>
 
-## Task 1:
 1. Change the button label from contact component from "Delete" to "Delete Contact" 
 
 Code:
@@ -152,10 +153,6 @@ Code:
 User interface:
 
 Before:
-
-<div align="center">
-  <img src="./frontend/public/img/t1ui1.png" alt="Image description" width="300"/>
-</div>
 
 ![alt text](./frontend/public/img/t1ui1.png)
 
@@ -214,8 +211,8 @@ After:
 
 ![alt text](./frontend/public/img/t1.4ui2.png)
 
-
-### Task 2
+<details>
+ <summary>Task 2</summary>
 
 1. Show the API command for “Show Contact” and provide a screenshot of the output (1 Mark)
 
@@ -318,7 +315,7 @@ X-Powered-By: Express
 5. Show the API command for “Show Phone” and provide a screenshot of the output (1 Mark)
 
 ```bash
-Commend:
+Command:
 http get http://localhost/api/contacts/2/phones
 
 Output:
@@ -417,68 +414,78 @@ X-Powered-By: Express
     "message": "Phone was updated successfully."
 }
 ```
-
-#### Task 3
+<detail>
+<summary>Task 3</summary>
 
 1. Modify the contacts Table (5 Marks):
+
 a. Update the contacts table to include the following attributes:
+
 i. id
+
 ii. Name
+
 iii. Address
 
 
-There are 2 methods when modify the contact Table in the Db using Sequelize:
+There are 2 methods when modify the contact **Table** in the **Database** using Sequelize:
 
-- Sequelize's .sync() method synchronizes your models with the database by creating or altering tables to match the current state of your models.
+- ```Sequelize's .sync()``` method synchronizes your models with the database by creating or altering tables to match the current state of your models.
 
 - Migrations are scripts that define how to apply changes to the database schema (like adding columns, changing data types, etc.) in a step-by-step manner. They allow you to evolve your database schema over time in a controlled way.
 
-Comparison:
-bash```
+**Comparison:**
+
 
 ![alt text](./frontend/public/img/t3comParison.png)
 
-In this project, I use Sequelize's .sync() method due to the convenient it bring
+**In this project, I use ```Sequelize's .sync()``` method due to the convenient it bring**
 
-To set up this method, I changed **db.sequelize.sync({ force: false })** in (./api/app.js) to **db.sequelize.sync({ after: true })**
+- To set up this method, I changed **db.sequelize.sync({ force: false })** in (./api/app.js) to **db.sequelize.sync({ after: true })**
 
 Code:
 
 ![alt text](./frontend/public/img/t3.1code1.png)
 
-After that, I modified contacts model in (./api/models/contacts.model.js)
+- After that, I modified ```contact.models.js``` in (./api/models/contact.models.js)
 
 Code:
 
 ![alt text](./frontend/public/img/t3.1code2'.png)
 
-Database:
+Alter Database:
 
 ![alt text](./frontend/public/img/t3.1ui1.png)
 
 2. Modify the phones Table (5 Marks):
+
 a. Update the phones table to include the following attributes:
+
 i. id
+
 ii. phone_type
+
 iii. phone_number
+
 iv. contactId
 
-Do the same steps as above, but this time I modified phones model in (./api/models/phones.model.js) 
+- Do the same steps as above, but this time I modified ```phone.models.js``` in (./api/models/phones.model.js) 
 
 Code:
 
 ![alt text](./frontend/public/img/t3.2code1.png)
 
-Database:
+Alter Database:
 
 ![alt text](./frontend/public/img/t3.2ui1.png)
 
 3. Adjust the Front-End (4 Marks):
+
 a. Modify the front-end to align with the updated backend structure.
 
-Before modify the front-end to align with the updated backed structure, I need to modify Api first to handle the database changed
+Before modify the front-end to align with the updated backend structure, I need to modify the logic of Api first to handle the database changed
 
-- Controller API contacts changes (./api/controllers/contact.controllers.js)
+**```contact.controller.js``` changes (./api/controllers/contact.controller.js)**
 
 Code:
 
@@ -486,77 +493,80 @@ Code:
 
 Explanation:
 
- This code is a controller function in a Node.js and Express application that creates a new contact record in the database (POST request)
+- This code is a controller function in a Node.js and Express application that creates a new contact record in the database (POST request)
 
- By adding **req.body.address** expected to contain **address** fields submitted by the client to the new database
+- By adding **req.body.address** expected to contain **address** fields submitted by the client to the new database
 
- Only need to change the POST request because it add new fields which is **address**, the others request don't need to change as long as the ```bash contactId ``` remains the same
+- Only need to change the POST request because it add new fields which is ```address```, the others request don't need to change as long as the ```contactId``` remains the same
 
-- Controller API phones changes (./api/controllers/phone.controllers.js)
+**```phone.controller.js``` changes (./api/controllers/phone.controller.js)**
 
 Code:
 
 ![alt text](./frontend/public/img/t3.3code2.png)
 
 Explanation:
- This code is a controller function in a Node.js and Express application that creates a new phone record in the database (POST request)
+- This code is a controller function in a Node.js and Express application that creates a new phone record in the database (POST request)
 
- Modified from **name**, **number** to **phone_type**, **phone_number**.
+- Modified from **name**, **number** to **phone_type**, **phone_number**.
 
- Only need to change the POST request because its adjust existed fields which is **name** and **number** to **phone_type**, **phone_number**. The others request don't need to change as long as the ```bash contactId ``` and ```bash phoneId ``` remains the same
+- Only the POST request needs to be changed, as it updates the existing fields from ```name``` and ```number``` to ```phone_type``` and ```phone_number```. The other requests don't need any changes as long as the ```contactId``` and ```phoneId``` remain the same.
 
 - Frontend changes
 
-Contacts:
+**Contacts**:
 
-Start with the ```bash NewContact.js ``` (./frontend/src/components/NewContacts.js)
+Start with the ```NewContact.js ``` (./frontend/src/components/NewContact.js)
 
 Code:
 
 ![alt text](./frontend/public/img/t3.3code3.png)
 
 Explanation:
- The form now allows users to input both a name and address for a new contact.
 
- When the form is submitted, a POST request is sent to the API to create the contact, passing both the **name** and **address** in the request body.
+- The form now allows users to input both a ```name``` and ```address``` for a ```NewContact```.
 
- If the contact is successfully created, the new contact is added to the contacts array, and the form inputs are reset.
+- When the form is submitted, a POST request is sent to the API to create the contact, passing both the ```name``` and ```address``` in the request body.
+
+- If the contact is successfully created, the new contact is added to the contacts array, and the form inputs are reset.
 
 Image:
 
 ![alt text](./frontend/public/img/t3.3ui1.png)
 
-After that, begin to adjust codes in ``bash Contact.js`` (./frontend/src/components/Contact.js)
+After that, begin to adjust codes in ``Contact.js`` (./frontend/src/components/Contact.js)
 
 Code:
 
 ![alt text](./frontend/public/img/t3.3code4.png)
 
 Explanation:
- Added the <p>{contact.address}</p> element inside the contact's title section to display the contact's address.
 
- Now both the name and address will be displayed for each contact.
+- Added the ```<p>{contact.address}</p>``` element inside the contact's title section to display the contact's address.
+
+- Now both the name and address will be displayed for each contact.
 
 Image:
 
 ![alt text](./frontend/public/img/t3.3ui2.png)
 
-No need to change in the ``bash ContactList.js`` because ``bash Contact.js`` component already handles displaying both name and address then ``bash ContactList.js`` display all the ``bash Contact.js``
+No need to change in the ``ContactList.js`` because ``Contact.js`` component already handles displaying both name and address then ``ContactList.js`` display all the Contacts
 
 Image:
 
 ![alt text](./frontend/public/img/t3.3ui3.png)
 
-Phones:
+**Phones:**
+
 Do exactly same steps in adjust Contact's frontend, the result shows below
 
-``bash NewPhone.js``
+``NewPhone.js``
 
 Code:
 
 ![alt text](./frontend/public/img/t3.3code5.png)
 
-``bash Phone.js``
+``Phone.js``
 
 Code:
 
@@ -566,14 +576,15 @@ Image:
 
 ![alt text](./frontend/public/img/t3.3ui5.png)
 
-Again no need to change in the ``bash PhoneList.js`` because it display alls ``bash Phone.js`` components
+Again no need to change in the ``PhoneList.js`` because it display alls Phone components
 
 **Final result**
 
 ![alt text](./frontend/public/img/t3.3ui6.png)
 
 4. Test All APIs related to table modified contacts and phones (8 Marks):
--Contacts:
+
+- Contacts:
 
 **GET METHOD**
 ```bash
@@ -765,8 +776,8 @@ X-Powered-By: Express
     "message": "Phone was updated successfully."
 }
 ```
-
-##### Task 4
+<detail>
+<summary>Task 4</summary>
 
 1. Table Creation: Create a new table named `companies` with the following attributes (18 Marks):
 a. company_id: Primary key, uniquely identifies each company
