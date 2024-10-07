@@ -445,7 +445,7 @@ There are 2 methods when modify the contact **Table** in the **Database** using 
 
 **In this project, I use ```Sequelize's .sync()``` method due to the convenient it bring**
 
-- To set up this method, I changed **db.sequelize.sync({ force: false })** in (./api/app.js) to **db.sequelize.sync({ after: true })**
+- To set up this method, I changed **db.sequelize.sync({ force: false })** in (./api/app.js) to **db.sequelize.sync({ force: true })**
 
 Code:
 
@@ -1167,17 +1167,17 @@ function Company({ company, companies, setCompanies, contactId }) {
                         />
                     </td>
                     <td>
-                        <button onClick={handleUpdate}>Save</button>
-                        <button onClick={() => setIsEditing(false)}>Cancel</button>
+                        <button className='button grey' onClick={handleUpdate}>Save</button>
+                        <button className='button yellow' onClick={() => setIsEditing(false)}>Cancel</button>
                     </td>
                 </>
             ) : (
                 // If not in editing mode, display the company details
                 <>
-                    <td>{company.company_name}</td>
-                    <td>{company.company_address}</td>
+                    <td style={{width: '150px'}}>{company.company_name}</td>
+                    <td style={{width: '150px'}}>{company.company_address}</td>
                     <td>
-                        <button onClick={() => setIsEditing(true)}>Edit</button> {/* Enable editing */}
+                        <button className='button blue' onClick={() => setIsEditing(true)}>Edit</button> {/* Enable editing */}
                         <button className="button red" onClick={doDelete}>Delete</button> {/* Delete company */}
                     </td>
                 </>
@@ -1240,7 +1240,7 @@ function NewCompany({ contactId, companies, setCompanies }) {
                 value={companyAddress}
                 onChange={(e) => setCompanyAddress(e.target.value)}
             />
-            <button type='submit'>Add Company</button> {/* Submit the form to create a company */}
+            <button className='button green' type='submit'>Add Company</button> {/* Submit the form to create a company */}
         </form>
     );
 }
@@ -1280,7 +1280,7 @@ function CompanyList({ contactId }) {
                     <tr>
                         <th>Company Name</th>
                         <th>Company Address</th>
-                        <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1373,4 +1373,111 @@ Image:
 
 ![alt text](./frontend/public/img/t5ui2.png)
 
+**Phone Edit function(bonus):**
+
+Code:
+```javascript
+import { useState } from "react";
+
+function Phone(props) {
+    const {contact, phone, phones, setPhones} = props;
+
+    // State to control whether we're editing a phone record
+    const [isEditing, setIsEditing] = useState(false);
+
+    // State to hold the current edited phone details
+    const [editPhone, setEditPhone] = useState({
+        phone_type: phone.phone_type,  // Initial value of phone type
+        phone_number: phone.phone_number  // Initial value of phone number
+    });
+
+    // Function to handle updating the phone record
+    async function handleUpdate(e) {
+        e.preventDefault();
+
+        // PUT request to update phone in the backend
+        const response = await fetch(`http://localhost/api/contacts/${contact.id}/phones/${phone.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(editPhone),  // Send the updated phone data
+        });
+            
+        if (response.ok) {
+            // If update is successful, update the phone list in state
+            const updatedPhones = phones.map((p) =>
+                p.id === phone.id ? { ...p, ...editPhone } : p  // Update only the edited phone
+            );
+            setPhones(updatedPhones);  // Set the updated phones list in state
+            setIsEditing(false);  // Exit edit mode
+        }
+    }
+
+    // Function to handle deleting a phone record
+    async function deletePhone() {
+        const response = await fetch(`http://localhost/api/contacts/${contact.id}/phones/${phone.id}`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            // Remove the deleted phone from the list in state
+            let newPhones = phones.filter((p) => p.id !== phone.id);
+            setPhones(newPhones);
+        }
+    }
+
+    return (
+		<tr onClick={(e) => e.stopPropagation()}>  {/* Prevent parent click events */}
+            {isEditing ? (  // If we're in editing mode, show input fields
+                <>
+                    {/* Dropdown to select phone type */}
+                    <select value={editPhone.phone_type} onChange={(e) => setEditPhone({ ...editPhone, phone_type: e.target.value })}>
+                        <option value="">Select Category</option> 
+                        <option value="home">Home</option>
+                        <option value="work">Work</option>
+                        <option value="mobile">Mobile</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <td>
+                        {/* Input for phone number */}
+                        <input
+                            type="text"
+                            value={editPhone.phone_number}
+                            onChange={(e) => setEditPhone({ ...editPhone, phone_number: e.target.value })}
+                        />
+                    </td>
+                    <td>
+                        {/* Save button to update phone */}
+                        <button className='button grey' onClick={handleUpdate}>Save</button>
+                        {/* Cancel button to exit edit mode */}
+                        <button className='button yellow' onClick={() => setIsEditing(false)}>Cancel</button>
+                    </td>
+                </>
+            ) : (  // If not in editing mode, display phone details
+                <>
+                    <td style={{width: '150px'}}>{phone.phone_type}</td>
+                    <td style={{width: '150px'}}>{phone.phone_number}</td>
+                    <td>
+                        {/* Button to enter edit mode */}
+                        <button className="button green" onClick={() => setIsEditing(true)}>Edit</button>
+                        {/* Button to delete phone */}
+                        <button className="button red" onClick={deletePhone}>Delete</button>
+                    </td>
+                </>
+            )}
+        </tr>
+    );
+}
+
+export default Phone;
+```
+
+Image:
+
+![alt text](./frontend/public/img/t5ui3.png)
+
+![alt text](./frontend/public/img/t5ui4.png)
+
 </details>
+

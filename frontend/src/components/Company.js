@@ -67,8 +67,8 @@ function Company({ company, companies, setCompanies, contactId }) {
                 </>
             ) : (
                 <>
-                    <td>{company.company_name}</td>
-                    <td>{company.company_address}</td>
+                    <td style={{width: '150px'}}>{company.company_name}</td>
+                    <td style={{width: '150px'}}>{company.company_address}</td>
                     <td>
                         <button className='button blue' onClick={() => setIsEditing(true)}>Edit</button>
                         <button className="button red" onClick={doDelete}>Delete</button>

@@ -67,14 +67,10 @@ function Phone(props) {
                 </>
             ): (
             <>
-            <td>{ phone.phone_type}</td>
-            <td>{ phone.phone_number}</td>
-            <td style={
-                {
-                    width: '14px',
-                }
-            }>
-            <button className="button green" onClick={() => setIsEditing(true)}>Edit</button>
+            <td style={{width: '150px'}}>{ phone.phone_type}</td>
+            <td style={{width: '150px'}}>{ phone.phone_number}</td>
+            <td>
+            <button className="button blue" onClick={() => setIsEditing(true)}>Edit</button>
             <button className="button red" onClick={deletePhone}>Delete</button>
             </td>
         </>
